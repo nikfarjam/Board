@@ -3,6 +3,7 @@ package com.mehdi.board;
 import com.mehdi.error.BoardException;
 import com.mehdi.model.Position;
 import com.mehdi.model.PositionDetails;
+import com.mehdi.model.Rotate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class BoardImpl implements Board {
         return r.getPosition().getColumn() == position.getColumn() && r.getPosition().getRow() == position.getRow();
     }
 
+    @Override
     public void addRobot(Position position) {
         if (!isAllowed(position)) {
             throw new BoardException("Invalid position");
@@ -51,25 +53,36 @@ public class BoardImpl implements Board {
         this.active = robots.size() - 1;
     }
 
+    @Override
     public void report() {
 
     }
 
+    @Override
     public boolean moveActiveRobot() {
-        if (active < 0 || active > robots.size() + 1) {
-            throw new BoardException("There's no active robot");
-        }
+        validateAcitveRobotIndex(this.active);
         return this.robots.get(active).move();
     }
 
+    @Override
     public void rotateActiveRobot(Rotate direction) {
-        if (active < 0 || active > robots.size() + 1) {
-            throw new BoardException("There's no active robot");
-        }
+        validateAcitveRobotIndex(this.active);
         if (Rotate.LEFT == direction) {
             this.robots.get(active).rotateLeft();
         } else {
             this.robots.get(active).rotateRight();
+        }
+    }
+
+    @Override
+    public void changeActiveRobot(int index) {
+        validateAcitveRobotIndex(index);
+        this.active = index;
+    }
+
+    private void validateAcitveRobotIndex(int index) {
+        if (index < 0 || index > robots.size() + 1) {
+            throw new BoardException("There's no active robot");
         }
     }
 }

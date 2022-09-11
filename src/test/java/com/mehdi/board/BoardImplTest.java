@@ -3,7 +3,7 @@ package com.mehdi.board;
 import com.mehdi.error.BoardException;
 import com.mehdi.model.Direction;
 import com.mehdi.model.Position;
-import org.junit.jupiter.api.Disabled;
+import com.mehdi.model.Rotate;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,4 +1,4 @@
-package com.mehdi.board;
+package com.mehdi.model;
 
 public enum Rotate {
     LEFT,
