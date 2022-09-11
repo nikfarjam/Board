@@ -63,7 +63,7 @@ public class RobotImpl implements Robot {
                     .column(this.position.getColumn() - 1)
                     .facing(this.position.getFacing())
                     .build();
-            default        -> throw new BoardException("Invalid position");
+            default -> throw new BoardException("Invalid position");
         };
         if (validator.isAllowed(newPosition)) {
             this.position = newPosition;
