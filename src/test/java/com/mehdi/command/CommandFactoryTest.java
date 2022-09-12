@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class CommandFactoryTest {
@@ -19,7 +19,7 @@ class CommandFactoryTest {
     @Test
     void createPlaceCommand() {
         CommandFactory factory = new CommandFactory();
-        Board board = new BoardImpl(5 ,5);
+        Board board = new BoardImpl(5, 5);
         Board spyBoard = spy(board);
         factory.setBoard(spyBoard);
         Command placeCommand = factory.create("PLACE 1,2,NORTH").get();
@@ -33,7 +33,7 @@ class CommandFactoryTest {
     @Test
     void createActiveRobotCommand() {
         CommandFactory factory = new CommandFactory();
-        Board board = new BoardImpl(5 ,5);
+        Board board = new BoardImpl(5, 5);
         Board spyBoard = spy(board);
         factory.setBoard(spyBoard);
         spyBoard.addRobot(Position.Builder.aPosition().column(1).row(2).facing(Direction.NORTH).build());
