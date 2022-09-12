@@ -4,10 +4,12 @@ import com.mehdi.error.BoardException;
 import com.mehdi.model.Position;
 import com.mehdi.model.PositionDetails;
 import com.mehdi.model.Rotate;
+import com.mehdi.report.Reporter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class BoardImpl implements Board {
 
@@ -17,6 +19,8 @@ public class BoardImpl implements Board {
 
     private List<Robot> robots;
 
+    private List<Reporter> reporters;
+
     private int active;
 
     public BoardImpl(int numberOfColumns, int numberOfRows) {
@@ -24,6 +28,12 @@ public class BoardImpl implements Board {
         this.numberOfRows = numberOfRows;
         this.robots = new ArrayList<>();
         this.active = -1;
+        this.reporters = new ArrayList<>();
+    }
+
+    @Override
+    public void addReporter(Reporter reporter) {
+        this.reporters.add(reporter);
     }
 
     @Override
@@ -55,7 +65,12 @@ public class BoardImpl implements Board {
 
     @Override
     public void report() {
-
+        List<PositionDetails> positions = this.robots.stream()
+                .map(Robot::getPosition)
+                .toList();
+        for (Reporter reporter : reporters) {
+            reporter.report(positions);
+        }
     }
 
     @Override

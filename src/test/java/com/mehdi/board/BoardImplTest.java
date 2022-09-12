@@ -12,7 +12,7 @@ class BoardImplTest {
 
     @Test
     void notAllowedToMoveToNegativePosition() {
-        BoardImpl board = new BoardImpl(2,2);
+        BoardImpl board = new BoardImpl(2, 2);
 
         assertFalse(board.isAllowed(Position.Builder.aPosition().facing(Direction.NORTH).column(-1).row(1).build()));
         assertFalse(board.isAllowed(Position.Builder.aPosition().facing(Direction.NORTH).column(2).row(-1).build()));
@@ -20,7 +20,7 @@ class BoardImplTest {
 
     @Test
     void notAllowedToMoveToPassBorders() {
-        BoardImpl board = new BoardImpl(2,2);
+        BoardImpl board = new BoardImpl(2, 2);
 
         assertFalse(board.isAllowed(Position.Builder.aPosition().facing(Direction.NORTH).column(3).row(1).build()));
         assertFalse(board.isAllowed(Position.Builder.aPosition().facing(Direction.NORTH).column(2).row(3).build()));
@@ -28,14 +28,14 @@ class BoardImplTest {
 
     @Test
     void allowedToMove() {
-        BoardImpl board = new BoardImpl(2,2);
+        BoardImpl board = new BoardImpl(2, 2);
 
         assertTrue(board.isAllowed(Position.Builder.aPosition().facing(Direction.NORTH).column(0).row(0).build()));
     }
 
     @Test
     void notAllowedToMoveToAnOccupiedRoom() {
-        BoardImpl board = new BoardImpl(2,2);
+        BoardImpl board = new BoardImpl(2, 2);
         Position position = Position.Builder.aPosition().row(1).column(1).facing(Direction.NORTH).build();
         board.addRobot(position);
 
@@ -44,21 +44,21 @@ class BoardImplTest {
 
     @Test
     void whenNoActiveRobotMoveThrowsException() {
-        BoardImpl board = new BoardImpl(2,2);
+        BoardImpl board = new BoardImpl(2, 2);
 
         assertThrows(BoardException.class, board::moveActiveRobot);
     }
 
     @Test
     void whenNoActiveRobotRotateThrowsException() {
-        BoardImpl board = new BoardImpl(2,2);
+        BoardImpl board = new BoardImpl(2, 2);
 
         assertThrows(BoardException.class, () -> board.rotateActiveRobot(Rotate.LEFT));
     }
 
     @Test
     void whenAddARobotToOccupiedRoomThrowsException() {
-        BoardImpl board = new BoardImpl(2,2);
+        BoardImpl board = new BoardImpl(2, 2);
         Position position = Position.Builder.aPosition().row(1).column(1).facing(Direction.NORTH).build();
         board.addRobot(position);
 

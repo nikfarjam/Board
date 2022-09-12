@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RobotImplTest {
 
     private static Logger logger = LogManager.getLogger(RobotImplTest.class);
-    
+
     private MoveValidator validator;
 
     @BeforeEach
