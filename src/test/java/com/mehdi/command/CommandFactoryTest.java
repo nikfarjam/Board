@@ -2,17 +2,13 @@ package com.mehdi.command;
 
 import com.mehdi.board.Board;
 import com.mehdi.board.BoardImpl;
-import com.mehdi.board.RobotImpl;
 import com.mehdi.model.Direction;
 import com.mehdi.model.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.Mockito;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +22,7 @@ class CommandFactoryTest {
         Board board = new BoardImpl(5 ,5);
         Board spyBoard = spy(board);
         factory.setBoard(spyBoard);
-        Command placeCommand = factory.createCommand("PLACE 1,2,NORTH");
+        Command placeCommand = factory.create("PLACE 1,2,NORTH").get();
 
         placeCommand.execute();
 
@@ -41,7 +37,7 @@ class CommandFactoryTest {
         Board spyBoard = spy(board);
         factory.setBoard(spyBoard);
         spyBoard.addRobot(Position.Builder.aPosition().column(1).row(2).facing(Direction.NORTH).build());
-        Command activeCommand = factory.createCommand("ROBOT 1");
+        Command activeCommand = factory.create("ROBOT 1").get();
 
         activeCommand.execute();
 
@@ -53,7 +49,7 @@ class CommandFactoryTest {
     void createSimpleCommand(String commandMessage, String className) {
         CommandFactory factory = new CommandFactory();
 
-        Command command = factory.createCommand(commandMessage);
+        Command command = factory.create(commandMessage).get();
 
         assertEquals(command.getClass().getName(), className);
     }

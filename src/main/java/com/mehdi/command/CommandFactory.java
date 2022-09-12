@@ -1,14 +1,16 @@
 package com.mehdi.command;
 
+import com.mehdi.AbstractFactory;
 import com.mehdi.board.Board;
 import com.mehdi.error.InvalidCommand;
 import com.mehdi.model.Direction;
 import com.mehdi.model.Position;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CommandFactory {
+public class CommandFactory implements AbstractFactory {
     private Board board;
     private Pattern placeCommand;
     private Pattern robotCommand;
@@ -35,7 +37,8 @@ public class CommandFactory {
         return robotCommand;
     }
 
-    public Command createCommand(String command) {
+    @Override
+    public Optional<Command> create(String command) {
         sanitationCommandString(command);
         validateCommandString(command);
         var cmd = command.toUpperCase();
@@ -46,24 +49,24 @@ public class CommandFactory {
             int row = Integer.parseInt(placeCommandMatcher.group(2));
             Direction facing = Direction.valueOf(placeCommandMatcher.group(3));
             Position p = Position.Builder.aPosition().column(column).row(row).facing(facing).build();
-            return new Place(this.board, p);
+            return Optional.of(new Place(this.board, p));
         }
         if (cmd.equals("LEFT")) {
-            return new Left(this.board);
+            return Optional.of(new Left(this.board));
         }
         if (cmd.equals("RIGHT")) {
-            return new Right(this.board);
+            return Optional.of(new Right(this.board));
         }
         Matcher robotMatcher = getRobotCommand().matcher(cmd);
         if (robotMatcher.find()) {
             int index = Integer.parseInt(robotMatcher.group(1));
-            return new Active(this.board, index);
+            return Optional.of(new Active(this.board, index));
         }
         if (cmd.equals("MOVE")) {
-            return new Move(this.board);
+            return Optional.of(new Move(this.board));
         }
         if (cmd.startsWith("REPORT")) {
-            return new Report(this.board);
+            return Optional.of(new Report(this.board));
         }
         throw new InvalidCommand("Command is not in valid list");
     }
