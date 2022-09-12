@@ -112,7 +112,7 @@ class RobotImplTest {
     }
 
     @Test
-    void whenPostionIsNotValidMoveThrowsException() {
+    void whenPositionIsNotValidMoveThrowsException() {
         Position position = Position.Builder.aPosition().row(1).column(2).facing(Direction.UNDEFINED).build();
         RobotImpl robot = new RobotImpl(position, validator);
 
