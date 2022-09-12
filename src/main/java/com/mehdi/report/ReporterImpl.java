@@ -10,6 +10,10 @@ public class ReporterImpl implements Reporter {
 
     @Override
     public void report(List<PositionDetails> positions) {
+        System.out.println(generateReport(positions));
+    }
+
+    public String generateReport(List<PositionDetails> positions) {
         StringBuffer result = new StringBuffer(OUTPUT);
         if (positions != null && positions.size() == 1) {
             PositionDetails position = positions.get(0);
@@ -32,6 +36,6 @@ public class ReporterImpl implements Reporter {
                 index+=1;
             }
         }
-        System.out.println(result);
+        return result.toString();
     }
 }
