@@ -5,9 +5,9 @@ import com.mehdi.model.Position;
 
 public class Place implements Command {
 
-    private Board board;
+    private final Board board;
 
-    private Position position;
+    private final Position position;
 
     public Place(Board board, Position position) {
         this.board = board;

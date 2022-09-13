@@ -11,13 +11,14 @@ public class RobotImpl implements Robot {
 
     private Position position;
 
-    private MoveValidator validator;
+    private final MoveValidator validator;
 
-    private List<Direction> directions;
+    private final List<Direction> directions;
 
     public RobotImpl(Position position, MoveValidator validator) {
         this.position = position;
         this.validator = validator;
+        // TODO: One improvement is to share this list between robots to follow flyweight design pattern
         this.directions = List.of(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
     }
 
@@ -29,14 +30,14 @@ public class RobotImpl implements Robot {
     @Override
     public void rotateLeft() {
         int facingIndex = this.directions.indexOf(getPosition().getFacing());
-        int newFacingIndex = (facingIndex + 1) == this.directions.size() ? 0 : facingIndex + 1;
+        int newFacingIndex = (facingIndex - 1) < 0 ? this.directions.size() - 1 : facingIndex - 1;
         this.position.setFacing(this.directions.get(newFacingIndex));
     }
 
     @Override
     public void rotateRight() {
         int facingIndex = this.directions.indexOf(getPosition().getFacing());
-        int newFacingIndex = (facingIndex - 1) < 0 ? this.directions.size() - 1 : facingIndex - 1;
+        int newFacingIndex = (facingIndex + 1) == this.directions.size() ? 0 : facingIndex + 1;
         this.position.setFacing(this.directions.get(newFacingIndex));
     }
 

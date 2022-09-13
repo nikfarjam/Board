@@ -4,9 +4,9 @@ import com.mehdi.board.Board;
 
 public class Active implements Command {
 
-    private Board board;
+    private final Board board;
 
-    private int index;
+    private final int index;
 
     public Active(Board board, int index) {
         this.board = board;

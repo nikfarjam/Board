@@ -45,13 +45,13 @@ class RobotImplTest {
         RobotImpl robot = new RobotImpl(position, validator);
 
         robot.rotateLeft();
-        assertEquals(Direction.EAST, robot.getPosition().getFacing());
+        assertEquals(Direction.WEST, robot.getPosition().getFacing());
 
         robot.rotateLeft();
         assertEquals(Direction.SOUTH, robot.getPosition().getFacing());
 
         robot.rotateLeft();
-        assertEquals(Direction.WEST, robot.getPosition().getFacing());
+        assertEquals(Direction.EAST, robot.getPosition().getFacing());
 
         robot.rotateLeft();
         assertEquals(Direction.NORTH, robot.getPosition().getFacing());
@@ -75,13 +75,13 @@ class RobotImplTest {
         RobotImpl robot = new RobotImpl(position, validator);
 
         robot.rotateRight();
-        assertEquals(Direction.WEST, robot.getPosition().getFacing());
+        assertEquals(Direction.EAST, robot.getPosition().getFacing());
 
         robot.rotateRight();
         assertEquals(Direction.SOUTH, robot.getPosition().getFacing());
 
         robot.rotateRight();
-        assertEquals(Direction.EAST, robot.getPosition().getFacing());
+        assertEquals(Direction.WEST, robot.getPosition().getFacing());
 
         robot.rotateRight();
         assertEquals(Direction.NORTH, robot.getPosition().getFacing());

@@ -4,7 +4,7 @@ import com.mehdi.board.Board;
 
 public class Move implements Command {
 
-    private Board board;
+    private final Board board;
 
     public Move(Board board) {
         this.board = board;

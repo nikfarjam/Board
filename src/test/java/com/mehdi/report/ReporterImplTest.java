@@ -21,21 +21,21 @@ class ReporterImplTest {
 
     @Test
     void emptyRobotReport() {
-        assertEquals("OUTPUT", reporter.generateReport(List.of()));
+        assertEquals("", reporter.generateReport(List.of(), 0));
     }
 
     @Test
     void nullRobotReport() {
-        assertEquals("OUTPUT", reporter.generateReport(null));
+        assertEquals("", reporter.generateReport(null, 0));
     }
 
     @Test
     void singleRobotReport() {
         Position position = Position.Builder.aPosition().row(2).column(3).facing(Direction.SOUTH).build();
 
-        String report = reporter.generateReport(List.of(position));
+        String report = reporter.generateReport(List.of(position), 0);
 
-        assertEquals("OUTPUT 2,3,SOUTH", report);
+        assertEquals("3,2,SOUTH", report);
     }
 
     @Test
@@ -46,13 +46,14 @@ class ReporterImplTest {
                 Position.Builder.aPosition().row(4).column(1).facing(Direction.EAST).build()
         );
 
-        String report = reporter.generateReport(positions);
+        String report = reporter.generateReport(positions, 1);
 
         String expected = """
-                OUTPUT
-                ROBOT1 2,3,SOUTH
-                ROBOT2 0,1,WEST
-                ROBOT3 4,1,EAST""";
+                3 ROBOTS
+                1 IS ACTIVE
+                ROBOT1 3,2,SOUTH
+                ROBOT2 1,0,WEST
+                ROBOT3 1,4,EAST""";
         assertEquals(expected, report);
     }
 
