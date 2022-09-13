@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.file.Path;
+import java.util.Objects;
 import java.util.Optional;
 
 public class Main {
@@ -22,9 +23,6 @@ public class Main {
     public static void main(String[] args) throws CommandReaderException {
         // Check if everything is fine
         // To run application, pass full path of input file as argument
-        if (args == null || args.length == 0) {
-            return;
-        }
         Optional<CommandReader> commandReader = CommandReaderFactory.getInstance().create(CommandReaderFactory.FILE);
         if (commandReader.isEmpty()) {
             logger.warn("Could not create reader factory");
@@ -35,7 +33,14 @@ public class Main {
         // Not an elegant use of abstract factory
         CommandReader reader = commandReader.get();
         if (reader instanceof FileCommandReader fileCommandReader) {
-            fileCommandReader.setPath(Path.of(args[0]));
+            String inputFilePath = null;
+            if (args != null && args.length > 0) {
+                inputFilePath = args[0];
+            } else {
+                ClassLoader classLoader = Main.class.getClassLoader();
+                inputFilePath = Objects.requireNonNull(classLoader.getResource("board1.txt")).getFile();
+            }
+            fileCommandReader.setPath(Path.of(inputFilePath));
         }
 
         CommandFactory commandFactory = new CommandFactory();
