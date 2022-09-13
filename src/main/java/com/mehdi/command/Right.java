@@ -5,7 +5,7 @@ import com.mehdi.model.Rotate;
 
 public class Right implements Command {
 
-    private Board board;
+    private final Board board;
 
     public Right(Board board) {
         this.board = board;

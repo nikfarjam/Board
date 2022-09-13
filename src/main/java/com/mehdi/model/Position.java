@@ -1,8 +1,12 @@
 package com.mehdi.model;
 
+/**
+ * A simple immutable POJO to keep position of a Robot
+ * It is immutable to be thread safe and reduce chance of side effect
+ */
 public class Position implements PositionDetails {
-    private int row;
-    private int column;
+    private final int row;
+    private final int column;
     private Direction facing;
 
     public Position(int row, int column, Direction facing) {
@@ -24,14 +28,6 @@ public class Position implements PositionDetails {
     @Override
     public Direction getFacing() {
         return facing;
-    }
-
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public void setColumn(int column) {
-        this.column = column;
     }
 
     public void setFacing(Direction facing) {
@@ -61,8 +57,8 @@ public class Position implements PositionDetails {
     @Override
     public String toString() {
         return "Position{" +
-                "row=" + row +
-                ", column=" + column +
+                "column=" + column +
+                ", row=" + row +
                 ", facing=" + facing +
                 '}';
     }

@@ -10,7 +10,7 @@ public interface Board extends MoveValidator {
 
     void report();
 
-    boolean moveActiveRobot();
+    void moveActiveRobot();
 
     void rotateActiveRobot(Rotate direction);
 

@@ -19,18 +19,14 @@ public class CommandFactory implements AbstractFactory {
         this.board = board;
     }
 
-    public Board getBoard() {
-        return this.board;
-    }
-
-    public Pattern getPlaceCommand() {
+    private Pattern getPlaceCommand() {
         if (placeCommand == null) {
             placeCommand = Pattern.compile("^PLACE\\s+(\\d)\\s*,\\s*(\\d)\\s*,\\s*(NORTH|EAST|SOUTH|WEST)");
         }
         return placeCommand;
     }
 
-    public Pattern getRobotCommand() {
+    private Pattern getRobotCommand() {
         if (robotCommand == null) {
             robotCommand = Pattern.compile("^ROBOT\\s+(\\d)");
         }
@@ -41,7 +37,7 @@ public class CommandFactory implements AbstractFactory {
     public Optional<Command> create(String command) {
         sanitationCommandString(command);
         validateCommandString(command);
-        var cmd = command.toUpperCase();
+        var cmd = command.trim().toUpperCase();
 
         Matcher placeCommandMatcher = getPlaceCommand().matcher(cmd);
         if (placeCommandMatcher.find()) {
@@ -78,6 +74,6 @@ public class CommandFactory implements AbstractFactory {
     }
 
     private void sanitationCommandString(String cmd) throws InvalidCommand {
-        // Use regular exprestion to check if a command contains harmful script
+        // Use RegEX to check if a command contains harmful script
     }
 }

@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface Reporter {
 
-    void report(List<PositionDetails> positions);
+    void report(List<PositionDetails> positions, int activeRobot);
 
 }

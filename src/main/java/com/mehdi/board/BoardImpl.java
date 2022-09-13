@@ -9,17 +9,16 @@ import com.mehdi.report.Reporter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class BoardImpl implements Board {
 
-    private int numberOfColumns;
+    private final int numberOfColumns;
 
-    private int numberOfRows;
+    private final int numberOfRows;
 
-    private List<Robot> robots;
+    private final List<Robot> robots;
 
-    private List<Reporter> reporters;
+    private final List<Reporter> reporters;
 
     private int active;
 
@@ -69,19 +68,19 @@ public class BoardImpl implements Board {
                 .map(Robot::getPosition)
                 .toList();
         for (Reporter reporter : reporters) {
-            reporter.report(positions);
+            reporter.report(positions, this.active + 1);
         }
     }
 
     @Override
-    public boolean moveActiveRobot() {
-        validateAcitveRobotIndex(this.active);
-        return this.robots.get(active).move();
+    public void moveActiveRobot() {
+        validateActiveRobotIndex(this.active);
+        this.robots.get(active).move();
     }
 
     @Override
     public void rotateActiveRobot(Rotate direction) {
-        validateAcitveRobotIndex(this.active);
+        validateActiveRobotIndex(this.active);
         if (Rotate.LEFT == direction) {
             this.robots.get(active).rotateLeft();
         } else {
@@ -91,11 +90,11 @@ public class BoardImpl implements Board {
 
     @Override
     public void changeActiveRobot(int index) {
-        validateAcitveRobotIndex(index);
-        this.active = index;
+        validateActiveRobotIndex(index);
+        this.active = index - 1;
     }
 
-    private void validateAcitveRobotIndex(int index) {
+    private void validateActiveRobotIndex(int index) {
         if (index < 0 || index > robots.size() + 1) {
             throw new BoardException("There's no active robot");
         }
