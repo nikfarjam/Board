@@ -5,12 +5,16 @@ import com.mehdi.model.Position;
 import com.mehdi.model.PositionDetails;
 import com.mehdi.model.Rotate;
 import com.mehdi.report.Reporter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class BoardImpl implements Board {
+
+    private static final Logger logger = LogManager.getLogger(BoardImpl.class);
 
     private final int numberOfColumns;
 
@@ -60,6 +64,7 @@ public class BoardImpl implements Board {
         }
         this.robots.add(new RobotImpl(position, this));
         this.active = robots.size() - 1;
+        logger.info("Added a new Robot {}", position);
     }
 
     @Override

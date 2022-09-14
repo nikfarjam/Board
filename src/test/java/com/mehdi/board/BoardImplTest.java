@@ -4,6 +4,7 @@ import com.mehdi.error.BoardException;
 import com.mehdi.model.Direction;
 import com.mehdi.model.Position;
 import com.mehdi.model.Rotate;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -61,6 +62,15 @@ class BoardImplTest {
         BoardImpl board = new BoardImpl(2, 2);
         Position position = Position.Builder.aPosition().row(1).column(1).facing(Direction.NORTH).build();
         board.addRobot(position);
+
+        assertThrows(BoardException.class, () -> board.addRobot(position));
+    }
+
+    @Test
+    @DisplayName("It's not allowed to add a Robot out of board")
+    void whenAddARobotOutOfBoardThrowsException() {
+        BoardImpl board = new BoardImpl(2, 2);
+        Position position = Position.Builder.aPosition().row(3).column(3).facing(Direction.NORTH).build();
 
         assertThrows(BoardException.class, () -> board.addRobot(position));
     }

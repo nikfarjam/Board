@@ -71,6 +71,16 @@ class BoardClientImplTest {
     class SingleRobot {
 
         @Test
+        @DisplayName("Ignore commands until first PLACE command")
+        void ignoreCommandsBeforePlace() throws CommandReaderException {
+            commands = List.of("LEFT", "MOVE", "REPORT", "PLACE 1,2,EAST", "MOVE", "MOVE", "LEFT", "MOVE", "REPORT");
+
+            boardClient.runRobot();
+
+            verify(reporter, times(1)).showReport("3,3,NORTH");
+        }
+
+        @Test
         void robotNeverMovesOutOfBoard() throws CommandReaderException {
             commands = List.of("PLACE 0,0,NORTH", "LEFT ", "MOVE", "MOVE", "REPORT");
 
@@ -115,11 +125,11 @@ class BoardClientImplTest {
 
             boardClient.runRobot();
 
-            verify(reporter).showReport( """
-                                    2 ROBOTS
-                                    2 IS ACTIVE
-                                    ROBOT1 2,2,NORTH
-                                    ROBOT2 2,3,SOUTH""");
+            verify(reporter).showReport("""
+                    2 ROBOTS
+                    2 IS ACTIVE
+                    ROBOT1 2,2,NORTH
+                    ROBOT2 2,3,SOUTH""");
         }
 
         @ParameterizedTest

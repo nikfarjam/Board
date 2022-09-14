@@ -8,6 +8,7 @@ import static org.mockito.Mockito.*;
 
 class RightTest {
 
+    // TODO: Same pattern for testing other commands
     @Test
     void rotateLeft() {
         BoardImpl board = mock(BoardImpl.class);
