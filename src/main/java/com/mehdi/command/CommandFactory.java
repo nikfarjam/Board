@@ -12,25 +12,15 @@ import java.util.regex.Pattern;
 
 public class CommandFactory implements AbstractFactory {
     private Board board;
-    private Pattern placeCommand;
-    private Pattern robotCommand;
+    private Pattern placeCommandPattern;
+    private Pattern robotCommandPattern;
+    private Command leftCommand;
+    private Command rightCommand;
+    private Command moveCommand;
+    private Command reportCommand;
 
     public void setBoard(Board board) {
         this.board = board;
-    }
-
-    private Pattern getPlaceCommand() {
-        if (placeCommand == null) {
-            placeCommand = Pattern.compile("^PLACE\\s+(\\d)\\s*,\\s*(\\d)\\s*,\\s*(NORTH|EAST|SOUTH|WEST)");
-        }
-        return placeCommand;
-    }
-
-    private Pattern getRobotCommand() {
-        if (robotCommand == null) {
-            robotCommand = Pattern.compile("^ROBOT\\s+(\\d)");
-        }
-        return robotCommand;
     }
 
     @Override
@@ -39,7 +29,7 @@ public class CommandFactory implements AbstractFactory {
         validateCommandString(command);
         var cmd = command.trim().toUpperCase();
 
-        Matcher placeCommandMatcher = getPlaceCommand().matcher(cmd);
+        Matcher placeCommandMatcher = getPlaceCommandPattern().matcher(cmd);
         if (placeCommandMatcher.find()) {
             int column = Integer.parseInt(placeCommandMatcher.group(1));
             int row = Integer.parseInt(placeCommandMatcher.group(2));
@@ -48,24 +38,67 @@ public class CommandFactory implements AbstractFactory {
             return Optional.of(new Place(this.board, p));
         }
         if (cmd.equals("LEFT")) {
-            return Optional.of(new Left(this.board));
+            return Optional.of(getLeftCommand());
         }
         if (cmd.equals("RIGHT")) {
-            return Optional.of(new Right(this.board));
+            return Optional.of(getRightCommand());
         }
-        Matcher robotMatcher = getRobotCommand().matcher(cmd);
+        Matcher robotMatcher = getRobotCommandPattern().matcher(cmd);
         if (robotMatcher.find()) {
             int index = Integer.parseInt(robotMatcher.group(1));
             return Optional.of(new Active(this.board, index));
         }
         if (cmd.equals("MOVE")) {
-            return Optional.of(new Move(this.board));
+            return Optional.of(getMoveCommand());
         }
         if (cmd.startsWith("REPORT")) {
-            return Optional.of(new Report(this.board));
+            return Optional.of(getReport());
         }
         throw new InvalidCommand("Command is not in valid list");
     }
+
+    private Command getReport() {
+        if (reportCommand == null) {
+            reportCommand = new Report(this.board);
+        }
+        return reportCommand;
+    }
+
+    private Command getMoveCommand() {
+        if (moveCommand == null) {
+            moveCommand = new Move(this.board);
+        }
+        return moveCommand;
+    }
+
+    private Command getRightCommand() {
+        if (rightCommand == null) {
+            rightCommand = new Right(this.board);
+        }
+        return rightCommand;
+    }
+
+    private Command getLeftCommand() {
+        if (leftCommand == null) {
+            leftCommand = new Left(this.board);
+        }
+        return leftCommand;
+    }
+
+    private Pattern getPlaceCommandPattern() {
+        if (placeCommandPattern == null) {
+            placeCommandPattern = Pattern.compile("^PLACE\\s+(\\d)\\s*,\\s*(\\d)\\s*,\\s*(NORTH|EAST|SOUTH|WEST)");
+        }
+        return placeCommandPattern;
+    }
+
+    private Pattern getRobotCommandPattern() {
+        if (robotCommandPattern == null) {
+            robotCommandPattern = Pattern.compile("^ROBOT\\s+(\\d)");
+        }
+        return robotCommandPattern;
+    }
+
 
     private void validateCommandString(String cmd) throws InvalidCommand {
         if (cmd == null || "".equals(cmd.trim())) {

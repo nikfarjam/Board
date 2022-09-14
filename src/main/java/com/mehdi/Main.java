@@ -18,27 +18,27 @@ import java.util.Optional;
 
 public class Main {
 
-    private static Logger logger = LogManager.getLogger(Main.class);
+    private static final Logger logger = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) throws CommandReaderException {
         // Check if everything is fine
-        // To run application, pass full path of input file as argument
         Optional<CommandReader> commandReader = CommandReaderFactory.getInstance().create(CommandReaderFactory.FILE);
         if (commandReader.isEmpty()) {
             logger.warn("Could not create reader factory");
             return;
         }
 
-        // Initiate beans
+        // Initiate beans and pass to BoardClient to run the application
         // Not an elegant use of abstract factory
+        // To run application, pass full path of input file as argument
         CommandReader reader = commandReader.get();
         if (reader instanceof FileCommandReader fileCommandReader) {
             String inputFilePath = null;
             if (args != null && args.length > 0) {
                 inputFilePath = args[0];
             } else {
-                ClassLoader classLoader = Main.class.getClassLoader();
-                inputFilePath = Objects.requireNonNull(classLoader.getResource("board1.txt")).getFile();
+                logger.warn("No file to load commands");
+                throw new CommandReaderException("No file to load commands");
             }
             fileCommandReader.setPath(Path.of(inputFilePath));
         }
@@ -46,7 +46,13 @@ public class Main {
         CommandFactory commandFactory = new CommandFactory();
         CommandInvoker invoker = new CommandInvokerImpl();
         Reporter reporter = new ReporterImpl();
-        Board board = new BoardImpl(5, 5);
+        int numberOfColumns = Optional.ofNullable(System.getenv("number_of_columns"))
+                .map(Integer::parseInt)
+                .orElse(5);
+        int numberOfRows = Optional.ofNullable(System.getenv("number_of_rows"))
+                .map(Integer::parseInt)
+                .orElse(5);
+        Board board = new BoardImpl(numberOfColumns, numberOfRows);
 
         // Create App and run it
         BoardClient boardClient = new BoardClientImpl(board, reporter, invoker, reader, commandFactory);
