@@ -21,7 +21,7 @@ public class CommandInvokerImpl implements CommandInvoker {
     @Override
     public void runCommands(Stream<Command> commands) {
         final List<Boolean> started = new ArrayList<>();
-        commands.forEach(command -> {
+        commands.sequential().forEach(command -> {
             if (started.isEmpty() && command instanceof Place) {
                 started.add(Boolean.TRUE);
             }
