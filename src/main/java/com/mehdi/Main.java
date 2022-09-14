@@ -13,7 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.file.Path;
-import java.util.Objects;
 import java.util.Optional;
 
 public class Main {
@@ -41,6 +40,7 @@ public class Main {
                 throw new CommandReaderException("No file to load commands");
             }
             fileCommandReader.setPath(Path.of(inputFilePath));
+            logger.info("Load commands from {}", inputFilePath);
         }
 
         CommandFactory commandFactory = new CommandFactory();
@@ -53,6 +53,7 @@ public class Main {
                 .map(Integer::parseInt)
                 .orElse(5);
         Board board = new BoardImpl(numberOfColumns, numberOfRows);
+        logger.info("Initiate Board");
 
         // Create App and run it
         BoardClient boardClient = new BoardClientImpl(board, reporter, invoker, reader, commandFactory);

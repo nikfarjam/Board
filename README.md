@@ -26,4 +26,4 @@ Then save commands in a text file and run the application by passing full path o
 
 `java -jar ./target/Board-1.0-1-jar-with-dependencies.jar ./src/main/resources/board1.txt`
 
-By default, board has 5 columns and rows, in order to change diminution of the board, set `number_of_columns` and `number_of_rows` in environment variable
+By default, board has 5 columns and rows, in order to change dimensions of the board, set `number_of_columns` and `number_of_rows` in environment variable
